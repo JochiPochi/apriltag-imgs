@@ -4,14 +4,16 @@ import matplotlib.pyplot as plt
 
 start_id = 24
 num_x_plot = 4
-num_y_plot = 6
+num_y_plot = 1
 plot_size_x = 8.0
 plot_size_y = 8.0
 tag_size = 7.0
 plot_dpi = 300
-fig, axs = plt.subplots(num_y_plot, num_x_plot)
-fig.set_size_inches((num_x_plot*plot_size_x,num_y_plot*plot_size_y))
+fig, axs = plt.subplots(num_x_plot, num_y_plot)
+fig.set_size_inches((num_y_plot*plot_size_y,num_x_plot*plot_size_x))
+#img_group = np.zeros(( int(plot_size_x*plot_dpi*num_x_plot), int(plot_size_y*plot_dpi)))
 for iy in range(num_y_plot):
+    #img_group.fill(255)
     for ix in range(num_x_plot):
         tag_id = start_id + ix + iy*num_x_plot
         if num_y_plot == 1:
@@ -29,7 +31,7 @@ for iy in range(num_y_plot):
         else:
             tag_str += "0"+str(tag_id)
         img = np.array(plt.imread("../tag36_11_{}.png".format(tag_str)))
-        img_resize = np.zeros(( int(plot_size_x*plot_dpi), int(plot_size_y*plot_dpi), 4))
+        img_resize = np.zeros(( int(plot_size_x*plot_dpi), int(plot_size_y*plot_dpi), num_x_plot))
         #np.set_printoptions(threshold=np.inf)
         #print(img_resize)
         for i in range(1,9):
@@ -40,10 +42,18 @@ for iy in range(num_y_plot):
                 img_resize[margin+(i-1)*x_range: margin+(i)*x_range, margin+(j-1)*y_range: margin+(j)*y_range,:] = img[i,j,:]
         
         ax.imshow(img_resize)
+        
         plt.imsave("test.png",img_resize, dpi=plot_dpi)
-        ax.set_title("tag_id: {}".format(tag_str), y=1.02, fontsize='30')
+        #img_group.fill(255)
+        #a = int(plot_size_x*plot_dpi)
+        #img_group[a:a+a,:] = img_resize[:,:,ix]
+        #plt.imshow(img_group)
+        #plt.imsave("test2.png",img_group, dpi=plot_dpi)
+        #ax.set_title("tag_id: {}".format(tag_str), y=1.02, fontsize='30')
 
-#plt.subplots_adjust(hspace=20.0)
+plt.setp(axs, xticks=[], yticks=[])
 plt.tight_layout()
-plt.savefig("./apriltag_sample.pdf", format="pdf")
+plt.subplots_adjust(wspace=0, hspace=0)
+#plt.figure(frameon=False)
+plt.savefig("./apriltag_sample.png", pad_inches = 0, dpi = 300, format="png")
 plt.plot()
