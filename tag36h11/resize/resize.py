@@ -52,8 +52,10 @@ for iy in range(num_y_plot):
         #ax.set_title("tag_id: {}".format(tag_str), y=1.02, fontsize='30')
 
 plt.setp(axs, xticks=[], yticks=[])
-plt.tight_layout()
-plt.subplots_adjust(wspace=0, hspace=0)
+#plt.tight_layout()
+plt.subplots_adjust(left=0, wspace=0, hspace=0)
 #plt.figure(frameon=False)
-plt.savefig("./apriltag_sample.png", pad_inches = 0, dpi = 300, format="png")
+plt.savefig("./apriltag_sample.pdf",pad_inches=0,dpi = 300, format="pdf")
 plt.plot()
+
+
